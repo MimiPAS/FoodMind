@@ -523,3 +523,71 @@
                 title: "นักฝันผู้โรแมนติก 💖",
                 description: "คุณเป็นคนรักความสุข ชอบเฉลิมฉลอง มองหาแง่ดีของชีวิต มีจินตนาการสูงและชอบสิ่งที่สวยงาม คุณเป็นคนละเอียดอ่อน รักความสุขของคนรอบข้าง และชอบทำให้ผู้อื่นยิ้ม",
                 traits: ["โรแมนติก", "มีจินตนาการ", "ละเอียดอ่อน", "ใจดี"]
+            }
+        };
+
+        const foodItems = document.querySelectorAll('.food-item');
+        const resultDiv = document.getElementById('result');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+
+        // เลือกอาหาร
+        foodItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // เอา .selected ออกจากทุกอันก่อน
+                foodItems.forEach(i => i.classList.remove('selected'));
+                // ใส่ให้ตัวที่คลิก
+                item.classList.add('selected');
+                // เก็บค่าอาหารที่เลือก
+                selectedFood = item.dataset.food;
+                // เปิดปุ่มวิเคราะห์
+                analyzeBtn.disabled = false;
+            });
+        });
+
+        // ฟังก์ชันวิเคราะห์นิสัย
+        function analyzePersonality() {
+            if (!selectedFood || !personalities[selectedFood]) return;
+
+            const p = personalities[selectedFood];
+
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = `
+                <div class="result-card">
+                    <h3>${p.title}</h3>
+                    <p>${p.description}</p>
+                    <div class="traits">
+                        ${p.traits.map(t => `<span class="trait-tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+
+            // เลื่อนลงไปดูผลลัพธ์
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ฟังก์ชันสลับแท็บ
+        function switchTab(tabId) {
+            // ซ่อนทุก content
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // เอา active ออกจากทุกปุ่ม
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // แสดงแท็บที่เลือก
+            const activeTab = document.getElementById(tabId);
+            if (activeTab) activeTab.classList.add('active');
+
+            // ให้ปุ่มที่เรียกฟังก์ชันนี้เป็น active
+            // (ใช้การเทียบจาก onclick ที่มีชื่อแท็บอยู่)
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                const onclick = btn.getAttribute('onclick') || "";
+                if (onclick.includes(`'${tabId}'`)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
