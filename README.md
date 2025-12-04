@@ -145,7 +145,7 @@
             margin-top: 20px;
         }
 
-        .btn:hover {
+        .btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(102,126,234,0.4);
         }
@@ -173,6 +173,22 @@
             line-height: 1.8;
             color: #444;
             font-size: 1.05em;
+            margin-bottom: 15px;
+        }
+
+        .traits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .trait-tag {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
         }
 
         .nutrition-card {
@@ -238,6 +254,21 @@
 
         .hidden {
             display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .food-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav-tab {
+                font-size: 0.9em;
+                padding: 15px 10px;
+            }
         }
     </style>
 </head>
@@ -308,7 +339,7 @@
                 <div class="category-section">
                     <h3 class="category-title">📊 หลัก 5 หมู่อาหาร</h3>
                     <div class="nutrition-card">
-                        <h3>🍚 หมู่ 1: คาร์โบไhydrate</h3>
+                        <h3>🍚 หมู่ 1: คาร์โบไฮเดรต</h3>
                         <ul>
                             <li>ให้พลังงานแก่ร่างกาย</li>
                             <li>ตัวอย่าง: ข้าว ขนมปัง มัน เผือก</li>
@@ -492,25 +523,3 @@
                 title: "นักฝันผู้โรแมนติก 💖",
                 description: "คุณเป็นคนรักความสุข ชอบเฉลิมฉลอง มองหาแง่ดีของชีวิต มีจินตนาการสูงและชอบสิ่งที่สวยงาม คุณเป็นคนละเอียดอ่อน รักความสุขของคนรอบข้าง และชอบทำให้ผู้อื่นยิ้ม",
                 traits: ["โรแมนติก", "มีจินตนาการ", "ละเอียดอ่อน", "ใจดี"]
-            }
-        };
-
-        // Food selection
-        document.querySelectorAll('.food-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.food-item').forEach(i => i.classList.remove('selected'));
-                this.classList.add('selected');
-                selectedFood = this.dataset.food;
-                document.getElementById('analyzeBtn').disabled = false;
-            });
-        });
-
-        // Analyze personality
-        function analyzePersonality() {
-            if (!selectedFood) return;
-
-            const personality = personalities[selectedFood];
-            const resultDiv = document.getElementById('result');
-            
-            resultDiv.innerHTML = `
-                <div class="result
